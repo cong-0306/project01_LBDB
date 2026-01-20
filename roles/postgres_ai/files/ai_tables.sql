@@ -17,29 +17,6 @@ CREATE TABLE IF NOT EXISTS ai_videos (
 );
 
 -- =========================
--- AI Video Jobs (작업 단위)
--- =========================
-CREATE TABLE IF NOT EXISTS ai_video_jobs (
-  job_id BIGSERIAL PRIMARY KEY,
-
-  video_id BIGINT NOT NULL,
-  job_type VARCHAR(50) NOT NULL,
-  status VARCHAR(30) DEFAULT 'pending',
-
-  input_data TEXT,
-  output_data TEXT,
-  error_message TEXT,
-
-  started_at TIMESTAMP,
-  finished_at TIMESTAMP,
-
-  CONSTRAINT fk_job_video
-    FOREIGN KEY (video_id)
-    REFERENCES ai_videos(video_id)
-    ON DELETE CASCADE
-);
-
--- =========================
 -- AI Video Assets (파일 메타)
 -- =========================
 CREATE TABLE IF NOT EXISTS ai_video_assets (
@@ -79,12 +56,6 @@ CREATE INDEX IF NOT EXISTS idx_ai_videos_user_id
 
 CREATE INDEX IF NOT EXISTS idx_ai_videos_status
   ON ai_videos(status);
-
-CREATE INDEX IF NOT EXISTS idx_ai_video_jobs_video_id
-  ON ai_video_jobs(video_id);
-
-CREATE INDEX IF NOT EXISTS idx_ai_video_jobs_status
-  ON ai_video_jobs(status);
 
 CREATE INDEX IF NOT EXISTS idx_precheck_logs_user_id
   ON ai_prompt_precheck_logs(user_id);
